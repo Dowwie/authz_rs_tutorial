@@ -1,0 +1,20 @@
+baseurl = "http://www.daringordon.com/tutorials-rs"
+name = "Rust Tutorials"
+license = "Apache"
+licenselink = "https://github.com/Dowwie/tutorials-rs/blob/master/LICENSE" 
+description = "Rust Tutorials"
+homepage = "http://www.daringordon.com/tutorials-rs"
+tags = ["documentation", "tutorial", "rust", "security"]
+features = ["documentation"]
+min_version = 0.1
+theme = "hugo-theme-learn"
+canonifyURLs = true 
+
+[author]
+  name = "Darin Gordon"
+  homepage = "http://www.daringordon.com"
+
+[original]
+  name = "Rust Tutorials"
+  homepage = "http://www.daringordon.com/tutorials-rs"
+  repo = "https://github.com/Dowwie/tutorials-rs"
