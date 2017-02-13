@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>02.lib.rs on </title>
+    <link>http://www.daringordon.com/tutorials-rs/02.lib.rs/index.xml</link>
+    <description>Recent content in 02.lib.rs on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 12 Feb 2017 10:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.daringordon.com/tutorials-rs/02.lib.rs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>lib.rs</title>
+      <link>http://www.daringordon.com/tutorials-rs/02.lib.rs/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/02.lib.rs/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-lib-rs-center&#34;&gt;&lt;center&gt; lib.rs &lt;/center&gt;&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[macro_use]
+extern crate serde_derive;
+
+extern crate serde;
+extern crate serde_json;
+
+pub mod authz;
+pub use authz::{is_permitted_from_str, is_permitted_from_perm, perms_from_buffer, Permission};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;em&gt;authz&lt;/em&gt; crate compiles to a library.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;/src/lib.rs&lt;/strong&gt; is considered the &lt;strong&gt;crate root&lt;/strong&gt; of the project.&lt;/p&gt;
+
+&lt;p&gt;The contents of the authz crate are referenced in another project through lib.rs.  That is, lib.rs serves as a gateway to authz.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://doc.rust-lang.org/book/conditional-compilation.html&#34;&gt;Reference Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;extern crate X
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;extern crate is Rust&amp;rsquo;s import mechanism&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[macro_use]
+extern crate serde_derive;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These two lines state to import the serde_derive crate &lt;em&gt;and&lt;/em&gt; its macros. &lt;em&gt;#[macro_use]&lt;/em&gt; decorates &lt;em&gt;extern crate serde_derive&lt;/em&gt; to indicate that macros are to be included with the import of the serde_derive crate&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub mod authz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;instructs Rust to look for &lt;em&gt;/src/authz.rs&lt;/em&gt; or &lt;em&gt;/src/authz/mod.rs&lt;/em&gt;, and make it available for public use.  If you were to mistakenly include BOTH of these module files for the same module name, the Rust compiler will raise an exception during compilation, stating that it found both files and hinting that you remove one in order to eliminate ambiguity.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub use authz::{is_permitted_from_str, is_permitted_from_perm, ...}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;exposes functions from the authz module for public use.  Exposing a function from lib.rs reduces the knowledge required by a consumer to use that function.  If the &lt;strong&gt;use&lt;/strong&gt; statement were omitted, a developer would need to reference functions using a convention such as &lt;em&gt;authz::authz::is_permitted_from_str&lt;/em&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

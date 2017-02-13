@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>http://www.daringordon.com/tutorials-rs/index.xml</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 12 Feb 2017 10:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.daringordon.com/tutorials-rs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Project Crate</title>
+      <link>http://www.daringordon.com/tutorials-rs/01.project_crate/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/01.project_crate/</guid>
+      <description>
+
+&lt;h3 id=&#34;center-project-authz-center&#34;&gt;&lt;center&gt; Project:  authz &lt;/center&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;authz&lt;/strong&gt; is a &lt;em&gt;library&lt;/em&gt; that performs permission-based authorization.  It is
+a port from &lt;a href=&#34;https://www.github.com/YosaiProject/yosai&#34;&gt;Yosai&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;rust-authz&lt;/strong&gt; is the name of the &lt;a href=&#34;https://www.github.com/Dowwie/rust-authz&#34;&gt;github project&lt;/a&gt; but the name of the &lt;a href=&#34;https://crates.io/crates/authz&#34;&gt;crate&lt;/a&gt; is simply &lt;strong&gt;authz&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;project-layout&#34;&gt;Project Layout&lt;/h3&gt;
+
+&lt;p&gt;The &lt;strong&gt;authz&lt;/strong&gt; crate consists of the following standardized directory structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt; authz
+   ├── benches
+   │   └── benchmarks.rs
+   ├── Cargo.toml
+   └── src
+       ├── authz.rs
+       └── lib.rs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is a very basic crate layout.  Within it are two directories:  &lt;em&gt;benches&lt;/em&gt; and &lt;em&gt;src&lt;/em&gt;.
+These directories are named using reserved words, recognized by cargo, that specify
+the function its contents provide for the crate, namely benchmarking tests and
+core source repository.&lt;/p&gt;
+
+&lt;p&gt;For more information about crate layout, &lt;a href=&#34;https://doc.rust-lang.org/book/crates-and-modules.html&#34;&gt;visit here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;authz-is-a-library&#34;&gt;authz is a Library&lt;/h3&gt;
+
+&lt;p&gt;As mentioned, authz is a &lt;em&gt;library&lt;/em&gt;.  Specifically, authz compiles into a dynamic C library
+and a Rust library.  The C library is used to establish a common interface from rust
+to other languages that can speak C, such as Python, using a common foreign function
+interface (cffi).  The Rust library (rlib) is imported by native Rust applications.&lt;/p&gt;
+
+&lt;p&gt;The way we specify that authz is to compile into a cdylib and rlib is within
+the [lib] section of the &lt;code&gt;Cargo.toml&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;[lib]
+crate-type = [&amp;quot;cdylib&amp;quot;, &amp;quot;rlib&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>lib.rs</title>
+      <link>http://www.daringordon.com/tutorials-rs/02.lib.rs/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/02.lib.rs/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-lib-rs-center&#34;&gt;&lt;center&gt; lib.rs &lt;/center&gt;&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[macro_use]
+extern crate serde_derive;
+
+extern crate serde;
+extern crate serde_json;
+
+pub mod authz;
+pub use authz::{is_permitted_from_str, is_permitted_from_perm, perms_from_buffer, Permission};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;em&gt;authz&lt;/em&gt; crate compiles to a library.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;/src/lib.rs&lt;/strong&gt; is considered the &lt;strong&gt;crate root&lt;/strong&gt; of the project.&lt;/p&gt;
+
+&lt;p&gt;The contents of the authz crate are referenced in another project through lib.rs.  That is, lib.rs serves as a gateway to authz.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://doc.rust-lang.org/book/conditional-compilation.html&#34;&gt;Reference Documentation&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;extern crate X
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;extern crate is Rust&amp;rsquo;s import mechanism&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[macro_use]
+extern crate serde_derive;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These two lines state to import the serde_derive crate &lt;em&gt;and&lt;/em&gt; its macros. &lt;em&gt;#[macro_use]&lt;/em&gt; decorates &lt;em&gt;extern crate serde_derive&lt;/em&gt; to indicate that macros are to be included with the import of the serde_derive crate&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub mod authz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;instructs Rust to look for &lt;em&gt;/src/authz.rs&lt;/em&gt; or &lt;em&gt;/src/authz/mod.rs&lt;/em&gt;, and make it available for public use.  If you were to mistakenly include BOTH of these module files for the same module name, the Rust compiler will raise an exception during compilation, stating that it found both files and hinting that you remove one in order to eliminate ambiguity.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub use authz::{is_permitted_from_str, is_permitted_from_perm, ...}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;exposes functions from the authz module for public use.  Exposing a function from lib.rs reduces the knowledge required by a consumer to use that function.  If the &lt;strong&gt;use&lt;/strong&gt; statement were omitted, a developer would need to reference functions using a convention such as &lt;em&gt;authz::authz::is_permitted_from_str&lt;/em&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>authz.rs</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/</guid>
+      <description>
+
+&lt;h3 id=&#34;center-authz-rs-center&#34;&gt;&lt;center&gt; authz.rs &lt;/center&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;extern crate serde;
+extern crate serde_json;
+
+use std::str;
+use std::error::Error;
+use std::collections::HashSet;
+
+static PART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;:&amp;quot;;
+static SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
+
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct Permission {
+
+    #[serde(default = &amp;quot;default_part&amp;quot;)]
+    domain: String,
+
+    #[serde(default = &amp;quot;default_hash_part&amp;quot;)]
+    actions: HashSet&amp;lt;String&amp;gt;,
+
+    #[serde(default = &amp;quot;default_hash_part&amp;quot;)]
+    targets: HashSet&amp;lt;String&amp;gt;
+}
+
+fn default_part() -&amp;gt; String {
+    &amp;quot;*&amp;quot;.to_string()
+}
+
+fn default_hash_part() -&amp;gt; HashSet&amp;lt;String&amp;gt; {
+    [&amp;quot;*&amp;quot;].into_iter().map(|s| s.to_string()).collect()
+}
+
+impl&amp;lt;&#39;a&amp;gt; Permission {
+    pub fn new(wildcard_perm: &amp;amp;str) -&amp;gt; Permission {
+        let (domain, actions, targets) = Permission::init_parts(wildcard_perm);
+        let perm = Permission {
+            domain: domain,
+            actions: actions,
+            targets: targets,
+        };
+        perm
+    }
+
+    fn part_from_str(s: Option&amp;lt;&amp;amp;str&amp;gt;) -&amp;gt; HashSet&amp;lt;String&amp;gt; {
+        match s {
+            Some(&amp;quot;&amp;quot;) | None =&amp;gt; {
+                let mut set = HashSet::new();
+                set.insert(String::from(&amp;quot;*&amp;quot;));
+                set
+            }
+            Some(s) =&amp;gt; {
+                let mut set = HashSet::new();
+                for rule in s.split(SUBPART_DELIMETER).map(str::trim) {
+                    set.insert(String::from(rule));
+                }
+                set
+            }
+        }
+    }
+
+    fn init_parts(wildcard_perm: &amp;amp;str) -&amp;gt; (String, HashSet&amp;lt;String&amp;gt;,
+                                           HashSet&amp;lt;String&amp;gt;) {
+        let iter = wildcard_perm.split(PART_DELIMETER).map(str::trim);
+
+        let domain = match iter.next() {
+            Some(&amp;quot;&amp;quot;) | Some(&amp;quot;*&amp;quot;) | None =&amp;gt; String::from(&amp;quot;*&amp;quot;),
+            Some(domain) =&amp;gt; String::from(domain),
+        };
+        let actions = Permission::part_from_str(iter.next());
+        let targets = Permission::part_from_str(iter.next());
+
+        (domain, actions, targets)
+    }
+
+    pub fn implies_from_str(&amp;amp;self, wildcard_permission: &amp;amp;str) -&amp;gt; bool {
+        let permission = Permission::new(wildcard_permission);
+        self.implies_from_perm(&amp;amp;permission)
+    }
+
+    pub fn implies_from_perm(&amp;amp;self, permission: &amp;amp;Permission) -&amp;gt; bool {
+        if self.domain != &amp;quot;*&amp;quot; {
+            if self.domain != permission.domain {
+                return false;
+            }
+        }
+
+        if !self.actions.contains(&amp;quot;*&amp;quot;) {
+            if !&amp;amp;self.actions.is_superset(&amp;amp;permission.actions) {
+                return false;
+            }
+        }
+
+        if !self.targets.contains(&amp;quot;*&amp;quot;) {
+            if !&amp;amp;self.targets.is_superset(&amp;amp;permission.targets) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+pub fn is_permitted_from_str&amp;lt;&#39;a, I&amp;gt;(required_perm: &amp;amp;str, assigned_perms: I) -&amp;gt; i32
+    where I: IntoIterator&amp;lt;Item = &amp;amp;&#39;a str&amp;gt;
+{
+    let required_permission = Permission::new(&amp;amp;required_perm);
+
+    for assigned in assigned_perms {
+        let assigned_permission = Permission::new(assigned);
+        if assigned_permission.implies_from_perm(&amp;amp;required_permission) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+pub fn is_permitted_from_perm(required_perm: &amp;amp;str,
+                              assigned_perms: Vec&amp;lt;Permission&amp;gt;) -&amp;gt; i32 {
+    let required_permission = Permission::new(required_perm);
+
+    for assigned in assigned_perms {
+        if assigned.implies_from_perm(&amp;amp;required_permission) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+pub fn perms_from_buffer(serialized_perms: &amp;amp;[u8]) -&amp;gt;
+        Result&amp;lt;Vec&amp;lt;Permission&amp;gt;, Box&amp;lt;Error&amp;gt;&amp;gt; {
+    let result = try!(serde_json::from_slice(serialized_perms));
+    Ok(result)
+}
+
+#[cfg(test)]
+mod test {
+    use serde_json;
+    use authz::{Permission, is_permitted_from_str,
+                is_permitted_from_perm, perms_from_buffer};
+    use std::collections::HashSet;
+
+    #[test]
+    fn test_new_permission() {
+
+        struct Perm&amp;lt;&#39;a&amp;gt; {
+            wildcard_perm: &amp;amp;&#39;a str,
+            domain: &amp;amp;&#39;a str,
+            actions: Vec&amp;lt;&amp;amp;&#39;a str&amp;gt;,
+            targets: Vec&amp;lt;&amp;amp;&#39;a str&amp;gt;,
+        }
+
+        let tests = [Perm { wildcard_perm: &amp;quot;&amp;quot;,
+                            domain: &amp;quot;*&amp;quot;,
+                            actions: vec![&amp;quot;*&amp;quot;],
+                            targets: vec![&amp;quot;*&amp;quot;],},
+                     Perm { wildcard_perm: &amp;quot;domain1&amp;quot;,
+                            domain: &amp;quot;domain1&amp;quot;,
+                            actions: vec![&amp;quot;*&amp;quot;],
+                            targets: vec![&amp;quot;*&amp;quot;],},
+                     Perm { wildcard_perm: &amp;quot;domain1:action1&amp;quot;,
+                            domain: &amp;quot;domain1&amp;quot;,
+                            actions: vec![&amp;quot;action1&amp;quot;],
+                            targets: vec![&amp;quot;*&amp;quot;], },
+                     Perm { wildcard_perm: &amp;quot;:action1, action2, action3&amp;quot;,
+                            domain: &amp;quot;*&amp;quot;,
+                            actions: vec![&amp;quot;action1&amp;quot;, &amp;quot;action2&amp;quot;, &amp;quot;action3&amp;quot;],
+                            targets: vec![&amp;quot;*&amp;quot;],},
+                     Perm { wildcard_perm: &amp;quot;domain1:action1, action2:target1, target2&amp;quot;,
+                            domain: &amp;quot;domain1&amp;quot;,
+                            actions: vec![&amp;quot;action1&amp;quot;, &amp;quot;action2&amp;quot;],
+                            targets: vec![&amp;quot;target1&amp;quot;, &amp;quot;target2&amp;quot;], }];
+
+        for test in tests.iter() {
+            let perm: Permission = Permission::new(test.wildcard_perm);
+
+            let expected_actions: HashSet&amp;lt;String&amp;gt; =
+                test.actions.iter().map(|x| x.to_string()).collect();
+            let expected_targets: HashSet&amp;lt;String&amp;gt; =
+                test.targets.iter().map(|x| x.to_string()).collect();
+
+            assert_eq!(perm.domain == test.domain, true);
+            assert_eq!(perm.actions == expected_actions, true);
+            assert_eq!(perm.targets == expected_targets, true);
+        }
+    }
+
+    #[test]
+    fn test_part_from_str() {
+        let tests = vec![(Some(&amp;quot;&amp;quot;), vec![&amp;quot;*&amp;quot;]),
+                         (None, vec![&amp;quot;*&amp;quot;]),
+                         (Some(&amp;quot;action1, action2, action3&amp;quot;),
+                          vec![&amp;quot;action1&amp;quot;, &amp;quot;action2&amp;quot;, &amp;quot;action3&amp;quot;]),
+                         (Some(&amp;quot;incorrect format&amp;quot;), vec![&amp;quot;incorrect format&amp;quot;])];
+        for &amp;amp;(ref input, ref expected) in tests.iter(){
+            let expected_result: HashSet&amp;lt;String&amp;gt; =
+                expected.iter().map(|x| x.to_string()).collect();
+            let result: HashSet&amp;lt;String&amp;gt; = Permission::part_from_str(*input);
+            assert_eq!(result, expected_result);
+        }
+    }
+
+    #[test]
+    fn test_implies_from_str() {
+        let perm = Permission::new(&amp;quot;domain1:action1&amp;quot;);
+        assert_eq!(perm.implies_from_str(&amp;quot;domain1:action1:target1&amp;quot;), true);
+        assert_eq!(perm.implies_from_str(&amp;quot;domain1:action2&amp;quot;), false);
+    }
+
+    #[test]
+    fn test_implies_from_perm() {
+        let perm1: Permission = Permission::new(&amp;quot;domain1:action1&amp;quot;);
+        let perm2: Permission = Permission::new(&amp;quot;domain1:action1,action2&amp;quot;);
+        let perm3: Permission = Permission::new(&amp;quot;domain1:action1,action2:target1&amp;quot;);
+        let perm4: Permission = Permission::new(&amp;quot;domain1:action3,action4:target2,target3&amp;quot;);
+        let perm5: Permission = Permission::new(&amp;quot;domain1:action1,action2,action3,action4&amp;quot;);
+        let perm6: Permission = Permission::new(&amp;quot;:action1,action2,action3,action4&amp;quot;);
+        let perm7: Permission = Permission::new(&amp;quot;domain1:action1,action3:target1, target2&amp;quot;);
+        let perm7b: Permission = Permission::new(&amp;quot;domain1:action5&amp;quot;);
+        let perm8: Permission = Permission::new(&amp;quot;&amp;quot;);
+
+        assert_eq!(perm5.implies_from_perm(&amp;amp;perm1), true);
+        assert_eq!(perm5.implies_from_perm(&amp;amp;perm2), true);
+        assert_eq!(perm5.implies_from_perm(&amp;amp;perm3), true);
+        assert_eq!(perm5.implies_from_perm(&amp;amp;perm4), true);
+        assert_eq!(perm1.implies_from_perm(&amp;amp;perm5), false);
+        assert_eq!(perm3.implies_from_perm(&amp;amp;perm5), false);
+        assert_eq!(perm6.implies_from_perm(&amp;amp;perm7), true);
+        assert_eq!(perm7.implies_from_perm(&amp;amp;perm6), false);
+        assert_eq!(perm6.implies_from_perm(&amp;amp;perm7b), false);
+        assert_eq!(perm7b.implies_from_perm(&amp;amp;perm6), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm1), true);
+        assert_eq!(perm1.implies_from_perm(&amp;amp;perm8), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm2), true);
+        assert_eq!(perm2.implies_from_perm(&amp;amp;perm8), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm3), true);
+        assert_eq!(perm3.implies_from_perm(&amp;amp;perm8), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm4), true);
+        assert_eq!(perm4.implies_from_perm(&amp;amp;perm8), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm5), true);
+        assert_eq!(perm5.implies_from_perm(&amp;amp;perm8), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm6), true);
+        assert_eq!(perm6.implies_from_perm(&amp;amp;perm8), false);
+        assert_eq!(perm8.implies_from_perm(&amp;amp;perm7), true);
+        assert_eq!(perm7.implies_from_perm(&amp;amp;perm8), false);
+    }
+
+    #[test]
+    fn test_internalis_permitted_from_str(){
+        let required: &amp;amp;str = &amp;quot;domain2:action4:target7&amp;quot;;
+        let assigned: Vec&amp;lt;&amp;amp;str&amp;gt; = vec![&amp;quot;domain1:action1&amp;quot;,
+                                       &amp;quot;domain2:action3,action4&amp;quot;];
+        assert_eq!(is_permitted_from_str(required, assigned.into_iter()), 1);
+    }
+
+    #[test]
+    fn test_is_permitted_from_perm() {
+        let required: &amp;amp;str = &amp;quot;domain2:action4:target7&amp;quot;;
+        let assigned: Vec&amp;lt;Permission&amp;gt; = vec![Permission::new(&amp;quot;domain1:action1&amp;quot;),
+                                             Permission::new(&amp;quot;domain2:action3,action4&amp;quot;)];
+        assert_eq!(is_permitted_from_perm(required, assigned), 1);
+    }
+
+    #[test]
+    fn test_perms_from_buffer() {
+        let permissions: Vec&amp;lt;Permission&amp;gt; = vec![Permission::new(&amp;quot;domain1:action1&amp;quot;),
+                                                Permission::new(&amp;quot;domain2:action3,action4&amp;quot;)];
+        let serialized = serde_json::to_string(&amp;amp;permissions).unwrap();
+        let result: Vec&amp;lt;Permission&amp;gt; =
+            perms_from_buffer(serialized.as_bytes()).unwrap();
+        assert_eq!(result, permissions);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Imports</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/01.imports/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/01.imports/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-imports-center&#34;&gt;&lt;center&gt;Imports&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;h3 id=&#34;crates&#34;&gt;Crates&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;extern crate serde;
+extern crate serde_json;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;strong&gt;serde&lt;/strong&gt; crate is used for serialization and deserialization.  We import the main library and its json subsidiary with these lines:&lt;/p&gt;
+
+&lt;h3 id=&#34;data-structures&#34;&gt;Data Structures&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;use std::str;
+use std::error::Error;
+use std::collections::HashSet;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;use crate::module::etc&lt;/em&gt; is the standard convention to import specific &amp;ldquo;objects&amp;rdquo; from a crate/module&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Global Statics</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/02.global_statics/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/02.global_statics/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-global-statics-vs-constants-center&#34;&gt;&lt;center&gt;Global Statics vs Constants&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;static PART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;:&amp;quot;;
+static SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A string primitive is represented in Rust as &lt;code&gt;&amp;amp;&#39;static str&lt;/code&gt;.  Declaring that string as &lt;a href=&#34;https://doc.rust-lang.org/book/const-and-static.html#static&#34;&gt;static&lt;/a&gt; makes the string accessible throughout the &lt;strong&gt;authz&lt;/strong&gt; module and does not inline the variable upon use (it gets a fixed memory location).  Statics live for the entire lifetime of the Rust program.  Note the use of the single apostrophe following the ampersand:  this denotes the use of a &lt;a href=&#34;https://doc.rust-lang.org/book/lifetimes.html&#34;&gt;lifetime&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This project chose &lt;strong&gt;static&lt;/strong&gt; rather than &lt;strong&gt;const&lt;/strong&gt; for no particular reason.  There was no requirement here for a memory location associated with a constant.  Rather than &lt;em&gt;static&lt;/em&gt;, the &lt;a href=&#34;https://doc.rust-lang.org/book/const-and-static.html#which-construct-should-i-use&#34;&gt;Rust book&lt;/a&gt; recommends &lt;em&gt;const&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;const PART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;:&amp;quot;;
+const SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Variable Bindings</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/03.variable_bindings/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/03.variable_bindings/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-static-vs-let-center&#34;&gt;&lt;center&gt;static vs let&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;Recall from the prior slide our creation of two global, static variables:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;static PART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;:&amp;quot;;
+static SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this program, our one-character string &amp;ldquo;:&amp;rdquo; is bound to a name, PART_DELIMETER, is given a static lifetime, and is assigned a global scope within the module.&lt;/p&gt;
+
+&lt;p&gt;Notice how the keyword &lt;strong&gt;&lt;em&gt;let&lt;/em&gt;&lt;/strong&gt;, used for &lt;em&gt;variable binding&lt;/em&gt;, isn&amp;rsquo;t used here. We need a globally scoped variable and have no use for patterns, so we use &lt;strong&gt;&lt;em&gt;static&lt;/em&gt;&lt;/strong&gt;. &lt;em&gt;let&lt;/em&gt; is used to introduce a binding between a value and a &lt;em&gt;pattern&lt;/em&gt;.  &lt;em&gt;let&lt;/em&gt; must be used within, and is scoped to, a function.  For instance, the following requires that it be declared within a function:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;let PART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;:&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;PART_DELIMETER&lt;/em&gt; in this example is a &lt;strong&gt;&lt;em&gt;pattern&lt;/em&gt;&lt;/strong&gt;.  The &lt;em&gt;pattern&lt;/em&gt; can simply be binding a name to a value, which is all that &lt;em&gt;static&lt;/em&gt; can do, but a pattern has the flexibility to enable more elaborate functionality, such as binding multiple values at once.  An example of this multi-variable binding is within the &lt;em&gt;Permission::new&lt;/em&gt; constructor, &lt;a href=&#34;http://www.daringordon.com/tutorials-rs/03.authz.rs/08.permission_constructor&#34;&gt;documented&lt;/a&gt; in this tutorial.&lt;/p&gt;
+
+&lt;p&gt;Note:  Statics &lt;em&gt;can&lt;/em&gt; be used within the scope of a function but they are restricted by rules.  However, details about this are beyond the scope of this tutorial.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permission Struct</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/04.permission_struct/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/04.permission_struct/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-the-permission-struct-center&#34;&gt;&lt;center&gt;The Permission Struct&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;p&gt;A &lt;a href=&#34;https://doc.rust-lang.org/book/structs.html&#34;&gt;struct&lt;/a&gt; is the construct used in Rust to create more complex data types.  It allows a developer to manage state and associated behaviors, similar to the role of a class in object oriented languages.&lt;/p&gt;
+
+&lt;p&gt;A Permission type is modeled as a 3-field struct:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub struct Permission {
+    pub domain: String,
+    pub actions: HashSet&amp;lt;String&amp;gt;,
+    pub targets: HashSet&amp;lt;String&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Suppose we were to model a permission that describes a bank account withdrawal from a particular bank account: &lt;em&gt;bankaccount:withdrawal:account12345&lt;/em&gt;.  In this example, our Permission&amp;rsquo;s domain is &lt;em&gt;bankaccount&lt;/em&gt; , actions is a HashSet (of Strings) containing the &lt;em&gt;withdraw&lt;/em&gt; String, and targets is a HashSet (of Strings) containing the &lt;em&gt;account12345&lt;/em&gt; String.&lt;/p&gt;
+
+&lt;p&gt;This struct definition would have sufficed had we not needed to be able to (de)serialize instances of a Permission.  However, since Permissions are serializable, we must update the struct definition accordingly.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>(De)Serializable Permission</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/05.deserializable_permission/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/05.deserializable_permission/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-a-de-serializable-permission-center&#34;&gt;&lt;center&gt;A (De)Serializable Permission&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct Permission {
+
+    #[serde(default = &amp;quot;default_part&amp;quot;)]
+    domain: String,
+
+    #[serde(default = &amp;quot;default_hash_part&amp;quot;)]
+    actions: HashSet&amp;lt;String&amp;gt;,
+
+    #[serde(default = &amp;quot;default_hash_part&amp;quot;)]
+    targets: HashSet&amp;lt;String&amp;gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;center-attributes-center&#34;&gt;&lt;center&gt;Attributes&lt;/center&gt;&lt;/h2&gt;
+
+&lt;p&gt;Notice how Permission and its three fields are each decorated by a line beginning with &amp;ldquo;#[&amp;hellip;]&amp;ldquo;.  This hash-bracket syntax denotes the use of Rust &lt;a href=&#34;https://doc.rust-lang.org/book/attributes.html&#34;&gt;Attributes&lt;/a&gt;. An Attribute is used in a declarative style of programming, decorating its target below.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[derive(Debug, PartialEq, Serialize, Deserialize)]
+pub struct Permission {
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;em&gt;derive&lt;/em&gt; Attribute automatically generates traits for data structures. This particular declaration derives 4 traits for Permission: Debug, PartialEq, Serialize, and Deserialize.&lt;/p&gt;
+
+&lt;h3 id=&#34;center-custom-attributes-center&#34;&gt;&lt;center&gt;Custom Attributes&lt;/center&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[serde(default = &amp;quot;default_part&amp;quot;)]
+domain: String,
+
+#[serde(default = &amp;quot;default_hash_part&amp;quot;)]
+actions: HashSet&amp;lt;String&amp;gt;,
+
+#[serde(default = &amp;quot;default_hash_part&amp;quot;)]
+targets: HashSet&amp;lt;String&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;These are customized Attributes in that they are not sourced from Rust&amp;rsquo;s standard library of Attributes. Rust supports customized Attributes only under one condition:  that the custom Attribute(s) is for &amp;ldquo;something&amp;rdquo; being derived.  In this example, our custom &lt;em&gt;#[serde(&amp;hellip;)]&lt;/em&gt; Attribute is allowed by the Rust compiler because the Attribute is decorating a field that is part of a struct that is having a Deserialize trait derived for it.  The Deserialize trait makes use of the &lt;em&gt;#[serde(&amp;hellip;)]&lt;/em&gt; attribute when it needs to obtain a default value for the decorated field.  In this example, we are declaring a function to call for a default field value.  For instance, the &amp;ldquo;default_hash_part&amp;rdquo; function is called by serde during deserialization when no value is available for the &lt;em&gt;actions&lt;/em&gt; field.&lt;/p&gt;
+
+&lt;h2 id=&#34;center-default-value-functions-for-serde-deserialization-center&#34;&gt;&lt;center&gt;Default-Value Functions for Serde Deserialization&lt;/center&gt;&lt;/h2&gt;
+
+&lt;p&gt;Serde calls the following functions to obtain default values for fields unpresented in serialized messages.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;fn default_part() -&amp;gt; String {
+    &amp;quot;*&amp;quot;.to_string()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The function &lt;em&gt;default_part&lt;/em&gt; is a very basic function that converts a string primitive to a String and returns the String.  There are &lt;a href=&#34;http://rustbyexample.com/std/str.html&#34;&gt;two types of strings&lt;/a&gt; in Rust:  &lt;strong&gt;&lt;em&gt;&amp;amp;str&lt;/em&gt;&lt;/strong&gt; and &lt;strong&gt;&lt;em&gt;String&lt;/em&gt;&lt;/strong&gt;.  &lt;em&gt;&amp;ldquo;&lt;/em&gt;&amp;ldquo;* is a string primitive, represented in Rust as &lt;em&gt;&amp;amp;str&lt;/em&gt;.  We convert this primitive to a String type by calling the to_string() method of the str primitive.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;fn default_hash_part() -&amp;gt; HashSet&amp;lt;String&amp;gt; {
+    [&amp;quot;*&amp;quot;].into_iter().map(|s| s.to_string()).collect()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The function &lt;em&gt;default_hash_part&lt;/em&gt; returns a HashSet (of Strings).
+[&amp;rdquo;*&amp;ldquo;] is a single-string array, represented as &lt;strong&gt;&lt;em&gt;[&amp;str; 1]&lt;/em&gt;&lt;/strong&gt;.  It is converted &lt;em&gt;into&lt;/em&gt; an iterator that has, as part of its api, a &lt;em&gt;map&lt;/em&gt; function that executes a string conversion closure for each element of the iterator.  Once the mapping finishes, the collect function gathers all of the elements of the iterator together and stores the Strings into a HashSet&lt;String&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Permission Implementation</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/06.permission_impl/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/06.permission_impl/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-permission-implementation-center&#34;&gt;&lt;center&gt;Permission Implementation&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;impl&amp;lt;&#39;a&amp;gt; Permission{
+    pub fn new(wildcard_perm: &amp;amp;str) -&amp;gt; Permission { ... }
+    fn part_from_str(s: Option&amp;lt;&amp;amp;str&amp;gt;) -&amp;gt; HashSet&amp;lt;String&amp;gt; {
+    fn init_parts(wildcard_perm: &amp;amp;str) -&amp;gt; (String, HashSet&amp;lt;String&amp;gt;, HashSet&amp;lt;String&amp;gt;) {
+    pub fn implies_from_str(&amp;amp;self, wildcard_permission: &amp;amp;str) -&amp;gt; bool {
+    pub fn implies_from_perm(&amp;amp;self, permission: &amp;amp;Permission) -&amp;gt; bool {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;impl Permission&lt;/em&gt; begins the implementation of the Permission struct.  This particular implementation includes &lt;em&gt;associated functions&lt;/em&gt; and &lt;em&gt;methods&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;center-associated-functions-center&#34;&gt;&lt;center&gt;Associated Functions&lt;/center&gt;&lt;/h2&gt;
+
+&lt;p&gt;A function within a type implementation that doesn&amp;rsquo;t accept &lt;em&gt;self&lt;/em&gt; as a parameter is considered an &lt;em&gt;associated function&lt;/em&gt;.  There are &lt;em&gt;three&lt;/em&gt; associated functions implemented for Permission:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;new(wildcard_perm: &amp;amp;str)
+part_from_str(s: Option&amp;lt;&amp;amp;str&amp;gt;)
+init_parts(wildcard_perm: &amp;amp;str)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The syntax for calling associated function is &lt;em&gt;Permission::function(&amp;hellip;)&lt;/em&gt;.  For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    let p: Permission = Permission::new(&amp;quot;domain:action1,action2&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;center-methods-center&#34;&gt;&lt;center&gt;Methods&lt;/center&gt;&lt;/h2&gt;
+
+&lt;p&gt;Methods are function that include a reference to &lt;em&gt;self&lt;/em&gt; as the first argument.  There are &lt;em&gt;two&lt;/em&gt; methods implemented for Permission:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;implies_from_str(&amp;amp;self, wildcard_permission: &amp;amp;str)
+implies_from_perm(&amp;amp;self, permission: &amp;amp;Permission)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The syntax for calling methods requires a Permission instance.  For example,
+we call &lt;em&gt;implies_from_perm&lt;/em&gt; from instance &lt;em&gt;permission_1&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    let permission_1: Permission = Permission::new(&amp;quot;domain:action1,action2&amp;quot;);
+    let permission_2: Permission = Permission::new(&amp;quot;domain:action1&amp;quot;);
+
+    permission1.implies_from_perm(permission2);
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Constructor Pattern</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/07.permission_constructor/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/07.permission_constructor/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-the-constructor-pattern-center&#34;&gt;&lt;center&gt;The Constructor Pattern&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub fn new(wildcard_perm: &amp;amp;str) -&amp;gt; Permission {
+    let (domain, actions, targets) = Permission::init_parts(wildcard_perm);
+    let perm = Permission {
+        domain: domain,
+        actions: actions,
+        targets: targets,
+    };
+    perm
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;new&lt;/em&gt; is an associated function that implements a constructor pattern.  The first assignment illustrates what is known as a &amp;ldquo;destructuring let&amp;rdquo;.  Here, the call to &lt;em&gt;init_parts&lt;/em&gt; returns a 3-element &lt;a href=&#34;https://doc.rust-lang.org/book/primitive-types.html#tuples&#34;&gt;tuple&lt;/a&gt; that is unpacked and each of its three elements is bound to a corresponding name:  domain, actions, and targets.  These three variables are then used as arguments for a new Permission instance, which is returned in the last line.  The keyword &amp;ldquo;return&amp;rdquo; is implied and unnecessary in Rust if the last line of a function isn&amp;rsquo;t terminated with a semicolon.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>fn init_parts</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-fn-init-parts-center&#34;&gt;&lt;center&gt;fn init_parts&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;fn init_parts(wildcard_perm: &amp;amp;str) -&amp;gt; (String, HashSet&amp;lt;String&amp;gt;, HashSet&amp;lt;String&amp;gt;) {
+    let mut iter = wildcard_perm.split(PART_DELIMETER).map(str::trim);
+
+    let domain = match iter.next() {
+        Some(&amp;quot;&amp;quot;) | Some(&amp;quot;*&amp;quot;) | None =&amp;gt; String::from(&amp;quot;*&amp;quot;),
+        Some(domain) =&amp;gt; String::from(domain),
+    };
+    let actions = Permission::part_from_str(iter.next());
+    let targets = Permission::part_from_str(iter.next());
+
+    (domain, actions, targets)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;init_parts&lt;/em&gt; turns a string representation of a permission into the 3 fields
+required by the Permission struct, using default values when necessary.&lt;/p&gt;
+
+&lt;h2 id=&#34;chaining-calls&#34;&gt;Chaining Calls&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;init_parts&lt;/em&gt; is provided a string primitive (&amp;amp;str), &lt;em&gt;wildcard_perm&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    let mut iter = wildcard_perm.split(PART_DELIMETER).map(str::trim);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This statement is a chain of calls.  The first call splits up the wildcard_perm string using the str::split method.  The string is split using the static global, &lt;em&gt;PART_DELIMETER&lt;/em&gt;, as its delimiter.  The &lt;em&gt;split&lt;/em&gt; method returns a &lt;a href=&#34;https://doc.rust-lang.org/std/str/struct.Split.html&#34;&gt;std::str::Split type&lt;/a&gt;, which implements the Iterator trait (among others).  With this Split type, the map method is called.  &lt;em&gt;map&lt;/em&gt; takes a closure, in this case str::trim, creates an std::iter::Map iterator, and then calls the closure on each element of the iterator, ultimately returning a mutable Map type.&lt;/p&gt;
+
+&lt;p&gt;Rather than chaining calls, you could perform the operations in steps.  The only disadvantage of this approach is that it&amp;rsquo;s less concise.  The performance and memory consumption remains the same as with the chain:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    let split_perm = wildcard_perm.split(PART_DELIMETER);
+    let mut iter = split_perm.map(str::trim);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice how the iterator isn&amp;rsquo;t collected into a collection type, such as a Vector. In this case, collecting wasn&amp;rsquo;t necessary and doing so would have created unnecessary overhead.&lt;/p&gt;
+
+&lt;p&gt;We declar iter as a mutable value by using the &amp;lsquo;mut&amp;rsquo; prefix, as presented.  Later in the function are &lt;em&gt;iter.next()&lt;/em&gt; calls.  &lt;em&gt;iter.next()&lt;/em&gt; is a &lt;em&gt;mutable borrow&lt;/em&gt; operation in that it updates the state of iter through a reference (borrow). To facilitate updates to iter from &lt;em&gt;iter.next()&lt;/em&gt; calls, iter must be declared mutable.&lt;/p&gt;
+
+&lt;h3 id=&#34;obtaining-domain-actions-and-targets&#34;&gt;Obtaining Domain, Actions, and Targets&lt;/h3&gt;
+
+&lt;p&gt;The rest of the function uses the elements of the iter Map to derive values that are bound to three local names:  domain, actions, and targets.  &lt;em&gt;init_parts&lt;/em&gt; returns these three bindings in a tuple.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    let domain = match iter.next() {
+        Some(&amp;quot;&amp;quot;) | Some(&amp;quot;*&amp;quot;) | None =&amp;gt; String::from(&amp;quot;*&amp;quot;),
+        Some(domain) =&amp;gt; String::from(domain),
+    };
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Domain is always the first element of the permission string.  We match on the next (first) element of the Map, iter.  If the element&amp;rsquo;s value is empty, &amp;ldquo;&lt;em&gt;&amp;rdquo;, or doesn&amp;rsquo;t exist, then match returns a String of &amp;ldquo;&lt;/em&gt;&amp;rdquo;.  Otherwise, match returns a Stringified version of the element.&lt;/p&gt;
+
+&lt;p&gt;Notice how a few values are wrapped by &lt;strong&gt;&lt;em&gt;Some&lt;/em&gt;&lt;/strong&gt; or our use of &lt;strong&gt;&lt;em&gt;None&lt;/em&gt;&lt;/strong&gt;?  Some and None are the supported values of an &lt;a href=&#34;https://doc.rust-lang.org/std/option/enum.Option.html&#34;&gt;Option enum&lt;/a&gt;.  iter.next() returns an &amp;ldquo;Optionized value&amp;rdquo; and so we match on that.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    let actions = Permission::part_from_str(iter.next());
+    let targets = Permission::part_from_str(iter.next());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Finally, actions and targets are bound to values obtained from calls made to the function &lt;em&gt;part_from_str&lt;/em&gt;, using the remaining two elements of iter as arguments.  &lt;em&gt;part_from_str&lt;/em&gt; is discussed in the next section.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>fn part_from_str</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/09.fn_part_from_str/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/09.fn_part_from_str/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-fn-part-from-str-center&#34;&gt;&lt;center&gt;fn part_from_str&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;fn part_from_str(s: Option&amp;lt;&amp;amp;str&amp;gt;) -&amp;gt; HashSet&amp;lt;String&amp;gt; {
+    let mut set = HashSet::new();
+    match s {
+        Some(&amp;quot;&amp;quot;) | None =&amp;gt; {
+            set.insert(String::from(&amp;quot;*&amp;quot;));
+        }
+        Some(s) =&amp;gt; {
+            let mut set = HashSet::new();
+            for rule in s.split(SUBPART_DELIMETER).map(str::trim) {
+                set.insert(String::from(rule));
+            }
+        }
+    }
+    set
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;part_from_str&lt;/em&gt; is used to break a string into pieces and return those pieces in a HashSet, using a default wildcard asterisk when necessary.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;part_from_str&lt;/em&gt; splits up a permission, using a SUBPART_DELIMETER, and returns the split parts as values of a HashSet.  A HashSet type is used to eliminate possible duplicate values and to take advantage of set operations during comparisons.&lt;/p&gt;
+
+&lt;p&gt;Argument &lt;strong&gt;s&lt;/strong&gt; is an Option, so we match on Some value or None.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>fn is_permitted_from_str</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-fn-is-permitted-from-str-center&#34;&gt;&lt;center&gt;fn is_permitted_from_str&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub fn is_permitted_from_str&amp;lt;&#39;a, I&amp;gt;(required_perm: &amp;amp;str, assigned_perms: I) -&amp;gt; i32
+    where I: IntoIterator&amp;lt;Item = &amp;amp;&#39;a str&amp;gt;
+{
+    let required_permission = Permission::new(&amp;amp;required_perm);
+
+    for assigned in assigned_perms {
+        let assigned_permission = Permission::new(assigned);
+        if assigned_permission.implies_from_perm(&amp;amp;required_permission) {
+            return 1;
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;is_permitted_from_str&lt;/em&gt; determines whether a required permission, expressed as a borrowed string, is satisfied by permissions assigned to a user, expressed as an iterator of borrowed strings.&lt;/p&gt;
+
+&lt;p&gt;Notice how &lt;em&gt;is_permitted_from_str&lt;/em&gt; is proceeded by &lt;strong&gt;&lt;em&gt;&amp;lt;&amp;lsquo;a, I&amp;gt;&lt;/em&gt;&lt;/strong&gt;.  This states that &lt;em&gt;is_permitted_from_str&lt;/em&gt; is a function that is generic over &lt;strong&gt;lifetime &amp;lsquo;a&lt;/strong&gt; and &lt;strong&gt;type I&lt;/strong&gt;, where &lt;strong&gt;I&lt;/strong&gt; implements IntoIterator with a &lt;strong&gt;str of lifetime &amp;lsquo;a&lt;/strong&gt; as its &lt;em&gt;associated type&lt;/em&gt; Item.&lt;/p&gt;
+
+&lt;h3 id=&#34;center-lifetimes-center&#34;&gt;&lt;center&gt;Lifetimes&lt;/center&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;&amp;lsquo;&lt;name&gt;&lt;/em&gt;&lt;/strong&gt; is the convention used to define a &lt;a href=&#34;https://doc.rust-lang.org/book/lifetimes.html&#34;&gt;lifetime parameter&lt;/a&gt;, which in this case we have simply named &lt;strong&gt;a&lt;/strong&gt;.  Rust forces programmers to take ownership of how long their objects will exist in memory when the compiler cannot infer object lifetime on its own.  We use the single apostrophe followed by the name of the lifetime when we scope our activities within a lifetime.&lt;/p&gt;
+
+&lt;p&gt;When a type reference is annotated with a lifetime parameter (in this case, &amp;lsquo;a), we are declaring that the reference (borrow) is to remain valid (live) for &lt;em&gt;at least&lt;/em&gt; the lifetime of &amp;lsquo;a, if not longer.  In other words, we are declaring the minimum lifespan of a variable in memory.  The compiler&amp;rsquo;s borrow checker keeps objects alive in memory for only as long as it needs to.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;is_permitted_from_str&lt;/strong&gt; requires the use of a lifetime parameter because it borrows values in the iterator passed to it by a calling function, specifically items that of type &amp;amp;str.  Everything in Rust has a lifetime.  The reason that you don&amp;rsquo;t see them everywhere is that they are often inferred by the compiler.  However, &lt;em&gt;borrows&lt;/em&gt; required explicit annotation of lifetimes because the compiler cannot infer an appropriate lifetime for them. The compiler cannot infer what lifetime to assign these borrowed values.  In this example, we tell the compiler that our borrowed strings ought to live for the lifetime of the function.  A lifetime is declared at the block-level.  Here, our block is the function, &lt;em&gt;is_permitted_from_str&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;center-generic-over-type-i-center&#34;&gt;&lt;center&gt;Generic Over Type I&lt;/center&gt;&lt;/h3&gt;
+
+&lt;p&gt;The where clause constrains (bounds) what type is accepted for I:  a type that implements IntoIterator and whose items are strings.  This approach is used so that the function that calls &lt;em&gt;is_permitted_from_str&lt;/em&gt; doesn&amp;rsquo;t have to convert its dataset into a collection prior to passing it.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>fn perms_from_buffer</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/11.perms_from_buffer/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/11.perms_from_buffer/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-fn-perms-from-buffer-center&#34;&gt;&lt;center&gt;fn perms_from_buffer&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;pub fn perms_from_buffer(serialized_perms: &amp;amp;[u8]) -&amp;gt; Result&amp;lt;Vec&amp;lt;Permission&amp;gt;, Box&amp;lt;Error&amp;gt;&amp;gt; {
+    let result = try!(serde_json::from_slice(serialized_perms));
+    Ok(result)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;perms_from_buffer&lt;/em&gt; de-serializes JSON to a Vector of Permissions. It borrows serialized_perms (a slice of bytes) and returns a Result that is either a &lt;a href=&#34;https://doc.rust-lang.org/book/vectors.html&#34;&gt;Vector&lt;/a&gt; of Permissions or a Boxed Error.&lt;/p&gt;
+
+&lt;h2 id=&#34;byte-slices&#34;&gt;Byte Slices&lt;/h2&gt;
+
+&lt;p&gt;Notice how this function borrows &lt;em&gt;serialized_perms&lt;/em&gt;.  &lt;em&gt;serialized_perms&lt;/em&gt; is a slice of bytes whose type is expressed in Rust as &lt;strong&gt;&amp;amp;[u8]&lt;/strong&gt;. &lt;em&gt;serialized_perms&lt;/em&gt; is in the form of a byte slice, rather than a string, because the JSON is stored in a particular datastore as bytes and consequently received from a datastore as bytes. No prior string conversion is necessary prior to handing the JSON over to the &lt;em&gt;serde_json&lt;/em&gt; library for de-serialization because &lt;em&gt;serde_json&lt;/em&gt; offers a &lt;em&gt;from_slice&lt;/em&gt; function that can read byte slices.&lt;/p&gt;
+
+&lt;h2 id=&#34;error-handling&#34;&gt;Error Handling&lt;/h2&gt;
+
+&lt;h3 id=&#34;the-try-macro&#34;&gt;The try! macro&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;let result = try!(serde_json::from_slice(serialized_perms));
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;try!&lt;/em&gt; is a helper &lt;a href=&#34;https://doc.rust-lang.org/beta/book/macros.html&#34;&gt;macro&lt;/a&gt; that reduces boilerplate code involved with calling a procedure and handling any errors that may arise from the call.  In the event that the code executed within a &lt;em&gt;try!&lt;/em&gt; block raises an error, &lt;em&gt;try!&lt;/em&gt; will either propagate &lt;em&gt;that&lt;/em&gt; error or an error of your liking up the call stack without resuming execution of any other code within &lt;em&gt;perms_from_buffer&lt;/em&gt;.  Because of the early return, &lt;em&gt;try!&lt;/em&gt; can only be used in functions that return a Result type.  We address this requirement with our return type:  &lt;em&gt;Result&lt;Vec&lt;Permission&gt;, Box&lt;Error&gt;&amp;gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;In the event that &lt;em&gt;let result = serde_json::from_slice(serialized_perms)&lt;/em&gt; doesn&amp;rsquo;t raise an error, the &lt;em&gt;pattern&lt;/em&gt;, named &amp;lsquo;result&amp;rsquo;, is bound to the value returned by the function call: a Vector of Permissions.&lt;/p&gt;
+
+&lt;h3 id=&#34;boxes&#34;&gt;Boxes&lt;/h3&gt;
+
+&lt;p&gt;When an error arises, &lt;em&gt;serde_json::from_slice&lt;/em&gt; returns a Result containing a &lt;em&gt;boxed&lt;/em&gt; error.&lt;/p&gt;
+
+&lt;p&gt;Suppose that we declared &lt;em&gt;x: Box&lt;Error&gt;&lt;/em&gt;. &lt;strong&gt;x&lt;/strong&gt; is referred to as a &amp;ldquo;boxed Error&amp;rdquo;. Specifically, it is an Error &lt;a href=&#34;https://doc.rust-lang.org/book/error-handling.html#the-error-trait&#34;&gt;trait&lt;/a&gt; object allocated to space on the heap.  In Rust, a trait object cannot be &lt;em&gt;passed&lt;/em&gt; around by its owner in its native form because a trait object is &lt;a href=&#34;https://doc.rust-lang.org/nightly/book/unsized-types.html&#34;&gt;unsized&lt;/a&gt;.  Instead, we often box a trait object and then move it in its box.&lt;/p&gt;
+
+&lt;h3 id=&#34;results&#34;&gt;Results&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;Result&amp;lt;Vec&amp;lt;Permission&amp;gt;, Box&amp;lt;Error&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Result&lt;/em&gt; is an &lt;a href=&#34;https://doc.rust-lang.org/std/result/index.html&#34;&gt;enumerated type&lt;/a&gt; that can take one of two forms:  a success (Ok) or failure (Err).  So, our call to &lt;em&gt;serde_json::from_slice&lt;/em&gt; returns a Result type that will either be a Result::Ok(x), where x is a Vector of Permissions, or a Result::Err(e) where e is a boxed error.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unit Testing</title>
+      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/12.unit_testing/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/12.unit_testing/</guid>
+      <description>
+
+&lt;h2 id=&#34;center-unit-testing-center&#34;&gt;&lt;center&gt;Unit Testing&lt;/center&gt;&lt;/h2&gt;
+
+&lt;hr/&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;#[cfg(test)]
+mod test {
+    use serde_json;
+    use authz::{Permission, is_permitted_from_str, is_permitted_from_perm, perms_from_buffer};
+    use std::collections::HashSet;
+
+    #[test]
+    fn test_new_permission() {
+        ...
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In Rust, your unit tests exist within the module that they test, as a sub-module.  This approach is a departure from how unit testing is implemented in other programming languages &amp;ndash; within modules separate from their test targets.  This practice is entirely safe and sound for the following two reasons:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Unit tests are distinguished from the rest of a module  by decorating the section of unit testing code with a special &lt;em&gt;#[cfg(test)]&lt;/em&gt; attribute and encapsulating all of the tests within a &amp;ldquo;test&amp;rdquo; sub-module: &lt;em&gt;mod test {..}&lt;/em&gt;.  This attribute allows the compiler to ignore the section of code it decorates unless the compiler is explicitly instructed to run tests, such as by invoking &amp;ldquo;cargo test&amp;rdquo; from the command line.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Unit tests test public &lt;em&gt;and&lt;/em&gt; private objects.  Private objects are not accessible from outside the module that they exist but they are accessible, through imports, by descendant sub-modules (such as the test sub-module).&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;    #[test]
+    fn test_new_permission() {
+        ...
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;em&gt;#[test]&lt;/em&gt; attribute is used to tell the compiler that the function it decorates is a test function and is to be run as a test unit.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

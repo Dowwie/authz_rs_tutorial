@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+    <meta http-equiv="expires" content="Sat, 31 Oct 2014 00:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="generator" content="Hugo 0.18.1" />
+    <meta name="description" content="">
+
+
+    <link rel="shortcut icon" href="http://www.daringordon.com/tutorials-rs/images/favicon.png" type="image/x-icon" />
+
+    
+    <title>fn part_from_str</title>
+    <link href="http://www.daringordon.com/tutorials-rs/css/nucleus.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/hybrid.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/featherlight.min.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/horsey.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/theme.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/css/hugo-theme.css" rel="stylesheet">
+    <link href="http://www.daringordon.com/tutorials-rs/highlight/styles/monokai.css" rel="stylesheet">
+    <script src="http://www.daringordon.com/tutorials-rs/js/jquery-2.x.min.js"></script>
+    <style type="text/css">:root #header + #content > #left > #rlblock_left
+    {display:none !important;}</style>
+    
+<link href="http://www.daringordon.com/tutorials-rs/css/authz_tutorial.css" rel="stylesheet">
+
+  </head>
+  <body class="" data-url="/03.authz.rs/09.fn_part_from_str/">
+    <nav id="sidebar">
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="http://www.daringordon.com/tutorials-rs">
+<img src="http://www.daringordon.com/tutorials-rs/images/tutorials.svg" />
+</a>
+
+    </div>
+    
+</div>
+
+
+  <div class="highlightable">
+    <ul class="topics">
+      
+      
+        
+      
+      
+      
+      
+
+      
+        
+      
+      
+      
+
+      <li class="dd-item  parent" data-nav-id="/">
+        <a href="http://www.daringordon.com/tutorials-rs/">
+          <span>
+            
+             Rust Tutorial:  authz
+            
+           </span>
+        </a>
+        
+      </li>
+      
+      
+      
+
+      
+        
+      
+      
+      
+
+      <li class="dd-item  " data-nav-id="/01.project_crate/">
+        <a href="http://www.daringordon.com/tutorials-rs/01.project_crate/">
+          <span>
+            
+              <b>1. </b>
+            
+             Project Crate
+            
+           </span>
+        </a>
+        
+      </li>
+      
+      
+      
+
+      
+        
+      
+      
+      
+
+      <li class="dd-item  " data-nav-id="/02.lib.rs/">
+        <a href="http://www.daringordon.com/tutorials-rs/02.lib.rs/">
+          <span>
+            
+              <b>2. </b>
+            
+             lib.rs
+            
+           </span>
+        </a>
+        
+      </li>
+      
+      
+      
+
+      
+        
+      
+      
+      
+
+      <li class="dd-item  parent" data-nav-id="/03.authz.rs/">
+        <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/">
+          <span>
+            
+              <b>3. </b>
+            
+             authz.rs
+            
+           </span>
+        </a>
+        
+        <ul>
+          
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/01.imports/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/01.imports/">
+                <span>Imports     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/02.global_statics/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/02.global_statics/">
+                <span>Global Statics     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/03.variable_bindings/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/03.variable_bindings/">
+                <span>Variable Bindings     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/04.permission_struct/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/04.permission_struct/">
+                <span>Permission Struct     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/05.deserializable_permission/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/05.deserializable_permission/">
+                <span>(De)Serializable Permission     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/06.permission_impl/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/06.permission_impl/">
+                <span>Permission Implementation     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/07.permission_constructor/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/07.permission_constructor/">
+                <span>Constructor Pattern     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/08.fn_init_parts/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts/">
+                <span>fn init_parts     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item active" data-nav-id="/03.authz.rs/09.fn_part_from_str/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/09.fn_part_from_str/">
+                <span>fn part_from_str     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/10.fn_is_permitted_from_str/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str/">
+                <span>fn is_permitted_from_str     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/11.perms_from_buffer/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/11.perms_from_buffer/">
+                <span>fn perms_from_buffer     </i></span>
+              </a>
+            </li>
+          
+          
+          
+            <li class="dd-item " data-nav-id="/03.authz.rs/12.unit_testing/">
+              <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/12.unit_testing/">
+                <span>Unit Testing     </i></span>
+              </a>
+            </li>
+          
+          
+        </ul>
+        
+      </li>
+      
+      
+    </ul>
+    <hr>
+     
+    <section id="footer">
+    </section>
+  </div>
+</nav>
+
+        <section id="body">
+        <div id="overlay"></div>
+
+        <div class="padding highlightable">
+
+            <div id="top-bar">
+              
+              <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                  <span id="sidebar-toggle-span">
+                      <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                        <i class="fa fa-bars"></i>
+                      </a>
+                  </span>
+                
+                
+                
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    
+                    
+                <a href="http://www.daringordon.com/tutorials-rs/03.authz.rs/" itemprop="url"><span itemprop="title">authz.rs</span></a> <i class="fa fa-angle-right"></i>
+                    
+                  
+                
+                <span itemprop="title"> fn part_from_str</span>
+              </div>
+              
+
+            </div>
+            
+              <div id="chapter">
+            
+    	        <div id="body-inner">
+                
+
+
+
+<h2 id="center-fn-part-from-str-center"><center>fn part_from_str</center></h2>
+
+<hr/>
+
+<pre><code class="language-rust">fn part_from_str(s: Option&lt;&amp;str&gt;) -&gt; HashSet&lt;String&gt; {
+    let mut set = HashSet::new();
+    match s {
+        Some(&quot;&quot;) | None =&gt; {
+            set.insert(String::from(&quot;*&quot;));
+        }
+        Some(s) =&gt; {
+            let mut set = HashSet::new();
+            for rule in s.split(SUBPART_DELIMETER).map(str::trim) {
+                set.insert(String::from(rule));
+            }
+        }
+    }
+    set
+}
+</code></pre>
+
+<p><em>part_from_str</em> is used to break a string into pieces and return those pieces in a HashSet, using a default wildcard asterisk when necessary.</p>
+
+<p><em>part_from_str</em> splits up a permission, using a SUBPART_DELIMETER, and returns the split parts as values of a HashSet.  A HashSet type is used to eliminate possible duplicate values and to take advantage of set operations during comparisons.</p>
+
+<p>Argument <strong>s</strong> is an Option, so we match on Some value or None.</p>
+
+
+      
+        </div> 
+      
+      </div>
+    </div>
+
+    <div id="navigation">
+        <a class="nav nav-prev" href="http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts"> <i class="fa fa-chevron-left"></i></a>
+        <a class="nav nav-next" href="http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+    </div>
+
+    </section>
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="http://www.daringordon.com/tutorials-rs/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/clipboard.min.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/perfect-scrollbar.min.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/jquery.sticky-kit.min.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/featherlight.min.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/html5shiv-printshiv.min.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/modernizr.custom.71422.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/learn.js"></script>
+    <script src="http://www.daringordon.com/tutorials-rs/js/hugo-learn.js"></script>
+    
+
+  </body>
+</html>
+

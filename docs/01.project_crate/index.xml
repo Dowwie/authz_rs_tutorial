@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>01.project_crates on </title>
+    <link>http://www.daringordon.com/tutorials-rs/01.project_crate/index.xml</link>
+    <description>Recent content in 01.project_crates on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 12 Feb 2017 10:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.daringordon.com/tutorials-rs/01.project_crate/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Project Crate</title>
+      <link>http://www.daringordon.com/tutorials-rs/01.project_crate/</link>
+      <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
+      
+      <guid>http://www.daringordon.com/tutorials-rs/01.project_crate/</guid>
+      <description>
+
+&lt;h3 id=&#34;center-project-authz-center&#34;&gt;&lt;center&gt; Project:  authz &lt;/center&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;authz&lt;/strong&gt; is a &lt;em&gt;library&lt;/em&gt; that performs permission-based authorization.  It is
+a port from &lt;a href=&#34;https://www.github.com/YosaiProject/yosai&#34;&gt;Yosai&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;rust-authz&lt;/strong&gt; is the name of the &lt;a href=&#34;https://www.github.com/Dowwie/rust-authz&#34;&gt;github project&lt;/a&gt; but the name of the &lt;a href=&#34;https://crates.io/crates/authz&#34;&gt;crate&lt;/a&gt; is simply &lt;strong&gt;authz&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;project-layout&#34;&gt;Project Layout&lt;/h3&gt;
+
+&lt;p&gt;The &lt;strong&gt;authz&lt;/strong&gt; crate consists of the following standardized directory structure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt; authz
+   ├── benches
+   │   └── benchmarks.rs
+   ├── Cargo.toml
+   └── src
+       ├── authz.rs
+       └── lib.rs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is a very basic crate layout.  Within it are two directories:  &lt;em&gt;benches&lt;/em&gt; and &lt;em&gt;src&lt;/em&gt;.
+These directories are named using reserved words, recognized by cargo, that specify
+the function its contents provide for the crate, namely benchmarking tests and
+core source repository.&lt;/p&gt;
+
+&lt;p&gt;For more information about crate layout, &lt;a href=&#34;https://doc.rust-lang.org/book/crates-and-modules.html&#34;&gt;visit here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;authz-is-a-library&#34;&gt;authz is a Library&lt;/h3&gt;
+
+&lt;p&gt;As mentioned, authz is a &lt;em&gt;library&lt;/em&gt;.  Specifically, authz compiles into a dynamic C library
+and a Rust library.  The C library is used to establish a common interface from rust
+to other languages that can speak C, such as Python, using a common foreign function
+interface (cffi).  The Rust library (rlib) is imported by native Rust applications.&lt;/p&gt;
+
+&lt;p&gt;The way we specify that authz is to compile into a cdylib and rlib is within
+the [lib] section of the &lt;code&gt;Cargo.toml&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;[lib]
+crate-type = [&amp;quot;cdylib&amp;quot;, &amp;quot;rlib&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
