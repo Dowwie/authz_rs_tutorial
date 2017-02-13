@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <link>http://www.daringordon.com/tutorials-rs/index.xml</link>
+    <link>http://www.daringordon.com/authz_rs_tutorial/index.xml</link>
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 12 Feb 2017 10:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.daringordon.com/tutorials-rs/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.daringordon.com/authz_rs_tutorial/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Project Crate</title>
-      <link>http://www.daringordon.com/tutorials-rs/01.project_crate/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/01.project_crate/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/01.project_crate/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/01.project_crate/</guid>
       <description>
 
 &lt;h3 id=&#34;center-project-authz-center&#34;&gt;&lt;center&gt; Project:  authz &lt;/center&gt;&lt;/h3&gt;
@@ -61,10 +61,10 @@ crate-type = [&amp;quot;cdylib&amp;quot;, &amp;quot;rlib&amp;quot;]
     
     <item>
       <title>lib.rs</title>
-      <link>http://www.daringordon.com/tutorials-rs/02.lib.rs/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/02.lib.rs/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/</guid>
       <description>
 
 &lt;h2 id=&#34;center-lib-rs-center&#34;&gt;&lt;center&gt; lib.rs &lt;/center&gt;&lt;/h2&gt;
@@ -112,10 +112,10 @@ extern crate serde_derive;
     
     <item>
       <title>authz.rs</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/</guid>
       <description>
 
 &lt;h3 id=&#34;center-authz-rs-center&#34;&gt;&lt;center&gt; authz.rs &lt;/center&gt;&lt;/h3&gt;
@@ -396,10 +396,10 @@ mod test {
     
     <item>
       <title>Imports</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/01.imports/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/01.imports/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/01.imports/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/01.imports/</guid>
       <description>
 
 &lt;h2 id=&#34;center-imports-center&#34;&gt;&lt;center&gt;Imports&lt;/center&gt;&lt;/h2&gt;
@@ -427,10 +427,10 @@ use std::collections::HashSet;
     
     <item>
       <title>Global Statics</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/02.global_statics/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/02.global_statics/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/02.global_statics/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/02.global_statics/</guid>
       <description>
 
 &lt;h2 id=&#34;center-global-statics-vs-constants-center&#34;&gt;&lt;center&gt;Global Statics vs Constants&lt;/center&gt;&lt;/h2&gt;
@@ -453,10 +453,10 @@ const SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
     
     <item>
       <title>Variable Bindings</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/03.variable_bindings/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/03.variable_bindings/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/03.variable_bindings/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/03.variable_bindings/</guid>
       <description>
 
 &lt;h2 id=&#34;center-static-vs-let-center&#34;&gt;&lt;center&gt;static vs let&lt;/center&gt;&lt;/h2&gt;
@@ -476,7 +476,7 @@ static SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
 &lt;pre&gt;&lt;code class=&#34;language-rust&#34;&gt;let PART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;:&amp;quot;;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;em&gt;PART_DELIMETER&lt;/em&gt; in this example is a &lt;strong&gt;&lt;em&gt;pattern&lt;/em&gt;&lt;/strong&gt;.  The &lt;em&gt;pattern&lt;/em&gt; can simply be binding a name to a value, which is all that &lt;em&gt;static&lt;/em&gt; can do, but a pattern has the flexibility to enable more elaborate functionality, such as binding multiple values at once.  An example of this multi-variable binding is within the &lt;em&gt;Permission::new&lt;/em&gt; constructor, &lt;a href=&#34;http://www.daringordon.com/tutorials-rs/03.authz.rs/08.permission_constructor&#34;&gt;documented&lt;/a&gt; in this tutorial.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;PART_DELIMETER&lt;/em&gt; in this example is a &lt;strong&gt;&lt;em&gt;pattern&lt;/em&gt;&lt;/strong&gt;.  The &lt;em&gt;pattern&lt;/em&gt; can simply be binding a name to a value, which is all that &lt;em&gt;static&lt;/em&gt; can do, but a pattern has the flexibility to enable more elaborate functionality, such as binding multiple values at once.  An example of this multi-variable binding is within the &lt;em&gt;Permission::new&lt;/em&gt; constructor, &lt;a href=&#34;http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/08.permission_constructor&#34;&gt;documented&lt;/a&gt; in this tutorial.&lt;/p&gt;
 
 &lt;p&gt;Note:  Statics &lt;em&gt;can&lt;/em&gt; be used within the scope of a function but they are restricted by rules.  However, details about this are beyond the scope of this tutorial.&lt;/p&gt;
 </description>
@@ -484,10 +484,10 @@ static SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
     
     <item>
       <title>Permission Struct</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/04.permission_struct/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/04.permission_struct/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/04.permission_struct/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/04.permission_struct/</guid>
       <description>
 
 &lt;h2 id=&#34;center-the-permission-struct-center&#34;&gt;&lt;center&gt;The Permission Struct&lt;/center&gt;&lt;/h2&gt;
@@ -513,10 +513,10 @@ static SUBPART_DELIMETER: &amp;amp;&#39;static str = &amp;quot;,&amp;quot;;
     
     <item>
       <title>(De)Serializable Permission</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/05.deserializable_permission/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/05.deserializable_permission/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/05.deserializable_permission/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/05.deserializable_permission/</guid>
       <description>
 
 &lt;h2 id=&#34;center-a-de-serializable-permission-center&#34;&gt;&lt;center&gt;A (De)Serializable Permission&lt;/center&gt;&lt;/h2&gt;
@@ -586,10 +586,10 @@ targets: HashSet&amp;lt;String&amp;gt;
     
     <item>
       <title>Permission Implementation</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/06.permission_impl/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/06.permission_impl/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/06.permission_impl/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/06.permission_impl/</guid>
       <description>
 
 &lt;h2 id=&#34;center-permission-implementation-center&#34;&gt;&lt;center&gt;Permission Implementation&lt;/center&gt;&lt;/h2&gt;
@@ -642,10 +642,10 @@ we call &lt;em&gt;implies_from_perm&lt;/em&gt; from instance &lt;em&gt;permissio
     
     <item>
       <title>Constructor Pattern</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/07.permission_constructor/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/07.permission_constructor/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/07.permission_constructor/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/07.permission_constructor/</guid>
       <description>
 
 &lt;h2 id=&#34;center-the-constructor-pattern-center&#34;&gt;&lt;center&gt;The Constructor Pattern&lt;/center&gt;&lt;/h2&gt;
@@ -669,10 +669,10 @@ we call &lt;em&gt;implies_from_perm&lt;/em&gt; from instance &lt;em&gt;permissio
     
     <item>
       <title>fn init_parts</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/08.fn_init_parts/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/08.fn_init_parts/</guid>
       <description>
 
 &lt;h2 id=&#34;center-fn-init-parts-center&#34;&gt;&lt;center&gt;fn init_parts&lt;/center&gt;&lt;/h2&gt;
@@ -739,10 +739,10 @@ required by the Permission struct, using default values when necessary.&lt;/p&gt
     
     <item>
       <title>fn part_from_str</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/09.fn_part_from_str/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/09.fn_part_from_str/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/09.fn_part_from_str/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/09.fn_part_from_str/</guid>
       <description>
 
 &lt;h2 id=&#34;center-fn-part-from-str-center&#34;&gt;&lt;center&gt;fn part_from_str&lt;/center&gt;&lt;/h2&gt;
@@ -776,10 +776,10 @@ required by the Permission struct, using default values when necessary.&lt;/p&gt
     
     <item>
       <title>fn is_permitted_from_str</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/10.fn_is_permitted_from_str/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/10.fn_is_permitted_from_str/</guid>
       <description>
 
 &lt;h2 id=&#34;center-fn-is-permitted-from-str-center&#34;&gt;&lt;center&gt;fn is_permitted_from_str&lt;/center&gt;&lt;/h2&gt;
@@ -821,10 +821,10 @@ required by the Permission struct, using default values when necessary.&lt;/p&gt
     
     <item>
       <title>fn perms_from_buffer</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/11.perms_from_buffer/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/11.perms_from_buffer/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/11.perms_from_buffer/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/11.perms_from_buffer/</guid>
       <description>
 
 &lt;h2 id=&#34;center-fn-perms-from-buffer-center&#34;&gt;&lt;center&gt;fn perms_from_buffer&lt;/center&gt;&lt;/h2&gt;
@@ -871,10 +871,10 @@ required by the Permission struct, using default values when necessary.&lt;/p&gt
     
     <item>
       <title>Unit Testing</title>
-      <link>http://www.daringordon.com/tutorials-rs/03.authz.rs/12.unit_testing/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/12.unit_testing/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/03.authz.rs/12.unit_testing/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/12.unit_testing/</guid>
       <description>
 
 &lt;h2 id=&#34;center-unit-testing-center&#34;&gt;&lt;center&gt;Unit Testing&lt;/center&gt;&lt;/h2&gt;

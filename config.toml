@@ -1,9 +1,9 @@
-baseurl = "http://www.daringordon.com/tutorials-rs"
+baseurl = "http://www.daringordon.com/authz_rs_tutorial"
 name = "Rust Tutorials"
 license = "Apache"
-licenselink = "https://github.com/Dowwie/tutorials-rs/blob/master/LICENSE" 
+licenselink = "https://github.com/Dowwie/authz_rs_tutorial/blob/master/LICENSE" 
 description = "Rust Tutorials"
-homepage = "http://www.daringordon.com/tutorials-rs"
+homepage = "http://www.daringordon.com/authz_rs_tutorial"
 tags = ["documentation", "tutorial", "rust", "security"]
 features = ["documentation"]
 min_version = 0.1
@@ -16,5 +16,5 @@ canonifyURLs = true
 
 [original]
   name = "Rust Tutorials"
-  homepage = "http://www.daringordon.com/tutorials-rs"
-  repo = "https://github.com/Dowwie/tutorials-rs"
+  homepage = "http://www.daringordon.com/authz_rs_tutorial"
+  repo = "https://github.com/Dowwie/authz_rs_tutorial"

@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>02.lib.rs on </title>
-    <link>http://www.daringordon.com/tutorials-rs/02.lib.rs/index.xml</link>
+    <link>http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/index.xml</link>
     <description>Recent content in 02.lib.rs on </description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 12 Feb 2017 10:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.daringordon.com/tutorials-rs/02.lib.rs/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>lib.rs</title>
-      <link>http://www.daringordon.com/tutorials-rs/02.lib.rs/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/02.lib.rs/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/</guid>
       <description>
 
 &lt;h2 id=&#34;center-lib-rs-center&#34;&gt;&lt;center&gt; lib.rs &lt;/center&gt;&lt;/h2&gt;

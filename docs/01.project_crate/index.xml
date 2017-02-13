@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>01.project_crates on </title>
-    <link>http://www.daringordon.com/tutorials-rs/01.project_crate/index.xml</link>
+    <link>http://www.daringordon.com/authz_rs_tutorial/01.project_crate/index.xml</link>
     <description>Recent content in 01.project_crates on </description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Sun, 12 Feb 2017 10:00:00 +0000</lastBuildDate>
-    <atom:link href="http://www.daringordon.com/tutorials-rs/01.project_crate/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://www.daringordon.com/authz_rs_tutorial/01.project_crate/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Project Crate</title>
-      <link>http://www.daringordon.com/tutorials-rs/01.project_crate/</link>
+      <link>http://www.daringordon.com/authz_rs_tutorial/01.project_crate/</link>
       <pubDate>Sun, 12 Feb 2017 10:00:00 +0000</pubDate>
       
-      <guid>http://www.daringordon.com/tutorials-rs/01.project_crate/</guid>
+      <guid>http://www.daringordon.com/authz_rs_tutorial/01.project_crate/</guid>
       <description>
 
 &lt;h3 id=&#34;center-project-authz-center&#34;&gt;&lt;center&gt; Project:  authz &lt;/center&gt;&lt;/h3&gt;

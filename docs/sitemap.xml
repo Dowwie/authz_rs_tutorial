@@ -2,105 +2,105 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/01.project_crate/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/01.project_crate/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/02.lib.rs/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/02.lib.rs/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/01.imports/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/01.imports/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/02.global_statics/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/02.global_statics/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/03.variable_bindings/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/03.variable_bindings/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/04.permission_struct/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/04.permission_struct/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/05.deserializable_permission/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/05.deserializable_permission/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/06.permission_impl/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/06.permission_impl/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/07.permission_constructor/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/07.permission_constructor/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/08.fn_init_parts/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/08.fn_init_parts/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/09.fn_part_from_str/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/09.fn_part_from_str/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/10.fn_is_permitted_from_str/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/10.fn_is_permitted_from_str/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/11.perms_from_buffer/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/11.perms_from_buffer/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz.rs/12.unit_testing/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz.rs/12.unit_testing/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/</loc>
     <lastmod>2016-11-21T15:03:12-05:00</lastmod>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/01/index.project_crate/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/01/index.project_crate/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/02.lib/index.rs/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/02.lib/index.rs/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://www.daringordon.com/tutorials-rs/03.authz/index.rs/</loc>
+    <loc>http://www.daringordon.com/authz_rs_tutorial/03.authz/index.rs/</loc>
     <lastmod>2017-02-12T10:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
